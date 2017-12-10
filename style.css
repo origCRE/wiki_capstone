@@ -2,6 +2,10 @@ body {
   padding-top: 50px;
 }
 
+.hideThis {
+      display: none;
+}
+
 #searchTerm{
 	width: 80%;
 }

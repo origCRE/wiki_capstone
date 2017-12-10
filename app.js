@@ -1,13 +1,56 @@
+// ---------------------
+// state object 
+//----------------------
+
+var fbData = { 
+	gameCards:[], // defined and controlled from genGameCard()
+	team1Score: 0,
+    team2Score: 0,
+	currentQ: 0,
+	numOfCards: 3 // how many cards for game ... will be set by user?
+};	
+
+function GameCard(cardTitle, cardDesc){
+	this.cardTitle = cardTitle;
+	this.cardDesc = cardDesc;
+}
+
+// ---------------------
+// process game data ...
+//----------------------
+
+function genGameCard(fbData, cardTitle, cardDesc){
+	var card = new GameCard(cardTitle, cardDesc); 
+    fbData.gameCards.push(card);
+    console.log("new entry!!!!!");
+    for (var i =0; i < fbData.gameCards.length; i++){
+    	console.log(fbData.gameCards[i]);
+    }
+	if (fbData.numOfCards === fbData.gameCards.length){
+    	//build transistion function to move to game play...
+    	console.log("3 cards...");
+    	triggerGameMode();
+	}
+} // end selectGameCard func...
+
+// ---------------------
+// render page
+//----------------------
+function triggerGameMode(){
+	console.log("triggered");
+	$('.gamePlay').removeClass('hideThis');
+	$('.searchDiv').addClass('hideThis');
+}
+
 
 
 // ---------------------
-// Process data and render pages...
+// api call and render page for user selections
 //----------------------
 
 // call data and format the entries
 // need to add a "select" button to each...
 function getWikiData(searchTerm) {
-	console.log(searchTerm);
 	var url = "http://en.wikipedia.org/w/api.php?action=opensearch&search=" + searchTerm +"&format=json&callback=?";
 	$.ajax({
 		url:url,
@@ -15,7 +58,6 @@ function getWikiData(searchTerm) {
 		async: false,
 		dataType: 'json',
 		success: function(data, status, jqXHR){
-			console.log(data);
 			$('#output').html('');
 			for(var i =0; i < data[1].length; i++){
 				var htmlTemplate = "<div><div class='well'><a class='dataHook' href=" +
@@ -27,6 +69,10 @@ function getWikiData(searchTerm) {
 		} // ajax - success func end...
 	}) // ajax end
 } //getWikiData end...
+
+function prepForNextCardGen(){
+	$("#output").empty();
+}
 
 // ---------------------
 // listener functions...
@@ -51,9 +97,9 @@ $(document).ready(function(){
 		var aTag = $(thisParent).find('.dataHook');
 		var cardTitle = $(aTag).find('h2').text();
 		var cardDesc = $(aTag).find('p').text();
-        console.log(cardTitle);
-        console.log(cardDesc);
-
+        genGameCard(fbData, cardTitle, cardDesc);
+        // console.log(fbData.gameCards.length);
+        prepForNextCardGen();
 	});
 
 });	
