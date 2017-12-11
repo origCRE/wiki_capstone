@@ -6,7 +6,7 @@ var fbData = {
 	gameCards:[], // defined and controlled from genGameCard()
 	team1Score: 0,
     team2Score: 0,
-	currentQ: 0,
+	currentCard: 0,
 	numOfCards: 3 // how many cards for game ... will be set by user?
 };	
 
@@ -29,24 +29,37 @@ function genGameCard(fbData, cardTitle, cardDesc){
 	if (fbData.numOfCards === fbData.gameCards.length){
     	//build transistion function to move to game play...
     	console.log("3 cards...");
-    	triggerGameMode();
+    	triggerGameMode(fbData);
 	}
 } // end selectGameCard func...
 
 // ---------------------
 // render page
 //----------------------
-function triggerGameMode(){
+function triggerGameMode(fbData){
 	console.log("triggered");
 	$('.gamePlay').removeClass('hideThis');
 	$('.searchDiv').addClass('hideThis');
+    displayGameCard(fbData);
 }
-
-
 
 // ---------------------
 // api call and render page for user selections
 //----------------------
+
+function displayGameCard(fbData) {
+	// display cards from this func...
+	console.log(fbData.currentCard);
+	console.log(fbData.gameCards[fbData.currentCard]);
+    // format card info based on this ^
+    $('.gamePlay').find('h2').text('test');
+    //find('h2').text();
+
+}
+
+function prepForNextCardGen(){
+	$("#output").empty();
+}
 
 // call data and format the entries
 // need to add a "select" button to each...
@@ -69,10 +82,6 @@ function getWikiData(searchTerm) {
 		} // ajax - success func end...
 	}) // ajax end
 } //getWikiData end...
-
-function prepForNextCardGen(){
-	$("#output").empty();
-}
 
 // ---------------------
 // listener functions...
