@@ -10,24 +10,33 @@
           crossorigin="anonymous">
         </script>
         <script src="app.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Vollkorn" rel="stylesheet"> 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link href="style.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
       <main>
-          <div class="searchDiv container">
+          <div class="searchDiv container well text-center">
           	<h1>wiki search</h1>
           	<input type="text" id="searchTerm">
           	<button id="search" class="btn btn-primary">submit</button>
             <div id="output"></div>
           </div>
-          <div class="gamePlay container hideThis"
-          	<h2>title here...</h2>
-          	<h3>description here...</h3>
+          <div class="gamePlay container well hideThis text-center">
+          	<h2 id="cdTitle">title here...</h2>
+          	<h3 id="cdDesc">description here...</h3>
           	<button id="team1" class="btn">team1</button>
           	<button id="team2" class="btn">team2</button>
           	<button id="pass" class="btn">pass</button>
-          	<h4>time goes here....</h4>
+          	<p id='timeTgt'>60</p>
+          	<button id="next" class="btn btn-primary hideThis">NEXT</button>
+      	  </div>
+      	  <div class="tally container well hideThis text-center">
+          	<h1>TALLY is:</h1>
+            <h2 id="highScore"></h2>
+            <h2 id="lowScore"></h2>    	
+          	<h2 id="notAnswered"></h2>
+          	<button id="restart" class="btn">ReStart</button>
       	  </div>
       </main>
     </body>

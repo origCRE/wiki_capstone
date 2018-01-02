@@ -1,5 +1,26 @@
 body {
   padding-top: 50px;
+  font-family: 'Vollkorn', serif;
+  font-size: 20px;
+  color: black;
+}
+
+.well {
+  background: forestgreen;
+}
+
+.well.tally {
+	background: blue;
+}
+
+.dataHook{
+	color: black;
+}
+
+#timer{
+	margin-top:1%;
+	border-radius:25px;
+	font-size: 100px;
 }
 
 .hideThis {
@@ -10,16 +31,6 @@ body {
 	width: 80%;
 }
 
-a {
-	color: inherit;
-}
-
-h2 {
-	color: black;
-	padding-left: 1%;
-	padding-top:1%;
-}
-
 div{
 	border-radius:25px;
 }
@@ -27,9 +38,4 @@ div{
 #output{
 	margin-top:1%;
 	border-radius:25px;
-	font-family:'Lobster';
-}
-
-h2{
-	font-family: Times New Roman;
 }
