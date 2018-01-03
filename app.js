@@ -6,8 +6,6 @@ var fbData = {
 	gameCards:[], // defined and controlled from genGameCard()
 	score:[],
 	gameRound: 1, // track 1 thru 3 rounds of game 
-	// team1Score: 0,
- //    team2Score: 0,
 	currentCard: 0,
 	numOfCards: 3 // how many cards for game ... will be set by user?
 };	
@@ -29,11 +27,10 @@ function ScoreStat(round, cardID, bucket) {
 function getScore(fbData) {
 	console.log('blah');
 	console.log(fbData.score);
-	scoreStats = {};
+	scoreStats = {}; // return for scoring
 	var team1 = 0;
 	var team2 = 0;
 	var passed = 0;
-
 
 	for (var i=0; i<fbData.score.length;i++){
     	console.log(i);
@@ -48,19 +45,27 @@ function getScore(fbData) {
 	} // end for
     console.log("team1 tally is: " + team1);
 
+    // compile score stats:
+    // highScore
     if (team1 > team2){
     	console.log("team1 wins");
-    } else if (team1 === team2) {
-    	console.log("no winner");
+        scoreStats["highScore"] = "team1";
+    } else if (team1 < team2) {
+    	console.log("team2 wins");
+    	scoreStats["highScore"] = "team2";
     } else {
     	console.log("team2 wins");
+    	scoreStats["highScore"] = "draw";
     }
-	
-	
-	// highScore"
-    // "lowScore"    	
-    // "notAnswered"
 
+	// scores
+	scoreStats["team1"] = team1;
+	scoreStats["team2"] = team2;
+	scoreStats["passed"] = passed;
+
+	//return the scoreStats...
+	console.log(scoreStats);
+	return(scoreStats);
 
 } // end getScore
 
@@ -145,11 +150,15 @@ function displayGameCard(fbData) {
                 // only show next button if game not over yet...
 		    	$('#next').removeClass('hideThis');
 		    } else {
-		    	getScore(fbData);
+		    	var scoreObj = getScore(fbData);
 		    	$('.gamePlay').addClass('hideThis');
 		    	$('.tally').removeClass('hideThis');
 		    	console.log("hit on format for end........");
-
+		    	console.log(scoreObj['highScore']);
+				//lowScore , notAnswered...
+		    	$('#tm1').text(scoreObj['team1']);
+                $('#tm2').text(scoreObj['team2']);
+                $('#passed').text(scoreObj['passed']);
 		    }   	
 		}
 		time --; // set timer countdown interval
