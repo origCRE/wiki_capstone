@@ -7,7 +7,7 @@ var fbData = {
 	score:[],
 	gameRound: 1, // track 1 thru 3 rounds of game 
 	currentCard: 0,
-	numOfCards: 3 // how many cards for game ... will be set by user?
+	numOfCards: 10 // how many cards for game ... will be set by user?
 };	
 
 function GameCard(cardTitle, cardDesc){
@@ -133,7 +133,7 @@ function displayGameCard(fbData) {
 
     
     //set up timer 
-    var time = 3; // adjust time here 
+    var time = 30; // adjust time here 
 	function initTimer(){
 		var id = setTimeout(initTimer, 1000); // 
 		$('#timeTgt').html(time);
