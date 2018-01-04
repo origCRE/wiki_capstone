@@ -78,7 +78,9 @@ function updateScore(fbData, bucket) {
 	var point = new ScoreStat(round, cardID, bucket);
     fbData.score.push(point);
     console.log(fbData.score);
-
+    $('#team1').addClass('hideThis');
+	$('#team2').addClass('hideThis');
+	$('#pass').addClass('hideThis');
 }
 
 function genGameCard(fbData, cardTitle, cardDesc){
@@ -124,9 +126,11 @@ function displayGameCard(fbData) {
     // format card info based on this ^
     $('#cdTitle').text(fbData.gameCards[fbData.currentCard].cardTitle);
     $('#cdDesc').text(fbData.gameCards[fbData.currentCard].cardDesc);
-    $('#team1').removeClass('hideThis');
-	$('#team2').removeClass('hideThis');
-	$('#pass').removeClass('hideThis');
+	$('#team1').addClass('hideThis');
+	$('#team2').addClass('hideThis');
+	$('#pass').addClass('hideThis');
+	$('#next').addClass('hideThis');
+
     
     //set up timer 
     var time = 3; // adjust time here 
@@ -137,28 +141,24 @@ function displayGameCard(fbData) {
 			clearTimeout(id);
 			// when timer hits zero do something...
 			// console.log("do something here :)");
-		    $('#cdTitle').text("Time is up : ) ");
+		    $('#cdTitle').text("Time is up.");
 		    $('#cdDesc').text("Please select the score and then hit the 'Next' button");
-	        $('#team1').addClass('hideThis');
-	        $('#team2').addClass('hideThis');
-	        $('#pass').addClass('hideThis');
+	        $('#team1').removeClass('hideThis');
+	        $('#team2').removeClass('hideThis');
+	        $('#pass').removeClass('hideThis');
+	        $('#next').removeClass('hideThis');
+
 		    var gameOver = incrementCurrentCard(fbData); 
-		    // console.log(gameOver);
-		    if (gameOver !== true){
-                console.log('in the next button trigger func');
-                console.log(gameOver);
-                // only show next button if game not over yet...
-		    	$('#next').removeClass('hideThis');
-		    } else {
-		    	var scoreObj = getScore(fbData);
-		    	$('.gamePlay').addClass('hideThis');
-		    	$('.tally').removeClass('hideThis');
-		    	console.log("hit on format for end........");
-		    	console.log(scoreObj['highScore']);
-				//lowScore , notAnswered...
-		    	$('#tm1').text(scoreObj['team1']);
-                $('#tm2').text(scoreObj['team2']);
-                $('#passed').text(scoreObj['passed']);
+
+		    if (gameOver === true){
+		    	$('#cdTitle').text("Game Complete");
+		        $('#cdDesc').text("Please select the final score, then select the Final Score Button.");
+		    	$('#finalScore').removeClass('hideThis');
+		        $('#team1').removeClass('hideThis');
+		        $('#team2').removeClass('hideThis');
+		        $('#pass').removeClass('hideThis');
+		        $('#next').addClass('hideThis');
+
 		    }   	
 		}
 		time --; // set timer countdown interval
@@ -168,9 +168,22 @@ function displayGameCard(fbData) {
 
 } // end displayGameCard()
 
+function getFinalScore(fbData){
+	var scoreObj = getScore(fbData);
+	$('.gamePlay').addClass('hideThis');
+	$('.tally').removeClass('hideThis');
+	console.log("hit on format for end........");
+	console.log(scoreObj['highScore']);
+	//lowScore , notAnswered...
+	$('#tm1').text("Team One had " + scoreObj['team1'] + " points.");
+    $('#tm2').text("Team Two had " + scoreObj['team2'] + " points.");
+    $('#passed').text(scoreObj['passed'] + " questions were passed on.");
+
+}
+
 function prepForNextCardGen(){
 	$("#output").empty();
-}
+}  
 
 // call data and format the entries
 // need to add a "select" button to each...
@@ -182,6 +195,7 @@ function getWikiData(searchTerm) {
 		async: false,
 		dataType: 'json',
 		success: function(data, status, jqXHR){
+			//console.log(data);
 			$('#output').html('');
 			for(var i =0; i < data[1].length; i++){
 				var htmlTemplate = "<div><div class='well'><a class='dataHook' href=" +
@@ -233,6 +247,7 @@ $(document).ready(function(){
    	$(document).on("click", "#team1", function(){
 		console.log("team1 button was clicked...");
         updateScore(fbData, "team1");
+
 	});
 
    	// team2
@@ -247,4 +262,15 @@ $(document).ready(function(){
 		updateScore(fbData, "pass");
 	});
 
+	// location.reload();
+	$(document).on("click", "#restart", function(){
+		location.reload();
+	});
+
+
+   	$(document).on("click", "#finalScore", function(){
+		getFinalScore(fbData);
+	});
+
+	
 });	
